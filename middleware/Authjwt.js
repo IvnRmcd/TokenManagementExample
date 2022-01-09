@@ -10,10 +10,8 @@ const catchError = (err, res) => {
     res.status(401).json({message: `Unauthorized`})
 }
 
-
 verifyToken = (req,res, next) => {
     let token = req.headers[`x-access-token`]
-
     if (!token){
         return res.status(403).json({message: "No Token provided"})
     }
@@ -27,10 +25,14 @@ verifyToken = (req,res, next) => {
     })
 }
 
-
-
-const verifyJwt = {
-    verifyToken
+generateToken = (value) => {
+    return jwt.sign(value, config.secret, {expiresIn: config.jwtExpiration})
 }
 
-module.exports = verifyJwt
+
+const tokenManagement = {
+    verifyToken,
+    generateToken
+}
+
+module.exports = tokenManagement

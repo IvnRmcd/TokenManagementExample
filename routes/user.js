@@ -8,10 +8,10 @@ const authjwt = require('../middleware/Authjwt')
 // registration route
 router.post('/register',verifySignup.checkDuplicateEmail,userController.Register)
 
-//login route - must contain the x-access-token to have access
-//router.post('/login',authjwt.verifyToken, authController.login)
 
 //route created to display the access token 
+//router.post('/login', userController.login)
+
 router.post('/login', authController.login)
 
 //route used to check the refreshtoken

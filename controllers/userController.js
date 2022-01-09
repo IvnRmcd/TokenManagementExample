@@ -4,7 +4,7 @@ const utilities = require('../utility/utilities')
 let jwt = require("jsonwebtoken")
 const config = require('../config/auth.config')
 const User = db.User
-
+const Role = db.Role
 
 
 const userController = {
@@ -14,23 +14,24 @@ const userController = {
             return res.status(400).json({
                 message: `Please check your submission, something is missing`
             })
-        } else 
-        {
+        } 
                 User.create({
                     firstName: req.body.firstName,
                     lastName: req.body.lastName,
                     email: req.body.email,
                     password: bcrypt.hashSync(req.body.password, 10)
-                }).then(
+                }).then(user => {
+                    let role = Role.createRole(user)
                     res.status(200).json({
-                        message: `Registration Successful`
+                        message: `Registration Successful`,
+                        role
                     })
-                ).catch(err => {
+                }).catch(err => {
                     res.json(400).json({
                     message: err
                 })
             }) 
-        }
+
     },
 
 

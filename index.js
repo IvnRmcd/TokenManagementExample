@@ -4,6 +4,7 @@ const cors = require('cors')
 const PORT = process.env.PORT
 const app = express()
 const user = require('./routes/user')
+const dashboard = require('./routes/dashboard')
 const db = require('./models')
 
 let corsOptions = {
@@ -19,6 +20,7 @@ app.get('/', (req,res) => {
 })
 
 app.use('/user', user)
+app.use('/dashboard', dashboard)
 
 
 db.sequelize.sync().then().catch(err => {

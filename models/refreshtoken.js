@@ -4,6 +4,7 @@ const {Model} = require('sequelize');
 const { UUIDV4 } = require('sequelize');
 const config = require("../config/auth.config");
 const { v4: uuidv4 } = require("uuid");
+const res = require('express/lib/response');
 
 module.exports = (sequelize, Sequelize) => {
   const RefreshToken = sequelize.define("RefreshToken", {
@@ -40,6 +41,14 @@ module.exports = (sequelize, Sequelize) => {
   RefreshToken.verifyExpiration = (token) => {
     return token.expiryDate.getTime() < new Date().getTime();
   };
+
+  RefreshToken.isTokenPresent = async function (id) {
+      return await this.findOne({
+        where: {
+          userId : id
+        }
+      }).then(token => { return token}).catch(err => {res.status(400).json({message: err.message})})
+  }
 
   return RefreshToken;
 };

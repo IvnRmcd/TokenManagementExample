@@ -11,7 +11,7 @@ const catchError = (err, res) => {
 }
 
 
-const verifyToken = (req,res, next) => {
+verifyToken = (req,res, next) => {
     let token = req.headers[`x-access-token`]
 
     if (!token){
@@ -26,3 +26,11 @@ const verifyToken = (req,res, next) => {
         next()
     })
 }
+
+
+
+const verifyJwt = {
+    verifyToken
+}
+
+module.exports = verifyJwt

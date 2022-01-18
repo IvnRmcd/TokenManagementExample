@@ -1,6 +1,8 @@
 const utilities = {
     missingParams: (body) => {
-        return Object.values(body).some(element => element === null || element === '')
+        return Object.values(body).some(element => element === null 
+            || element === '' 
+            || element === "undefined")
     },
 }
 

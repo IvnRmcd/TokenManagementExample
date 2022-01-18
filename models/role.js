@@ -17,7 +17,6 @@ module.exports = (sequelize, DataTypes) => {
   }
 
   Role.createRole = async function(user){
-
     let role = await this.create({
       userId: user.id
     })

@@ -5,6 +5,7 @@ const  verifyJwt  = require('../middleware/Authjwt')
 
 
 router.get('/user',verifyJwt.verifyToken,dashboard.user )
+
 router.get('/admin', verifyJwt.verifyToken, dashboard.admin)
 
 

@@ -10,12 +10,13 @@ const catchError = (err, res) => {
     res.status(401).json({message: `Unauthorized`})
 }
 
-verifyToken = (req,res, next) => {
+const tokenManagement = {
+//Rewrite this middleware to set errors instead of returning a response
+verifyToken: (req,res, next) => {
     let token = req.headers[`x-access-token`]
     if (!token){
-        return res.status(403).json({message: "No Token provided"})
+        return res.status(403).json({message: "Unauthorized"})
     }
-
     jwt.verify(token, config.secret, (err, decoded) => {
         if (err){
             return catchError(err, res)
@@ -23,16 +24,12 @@ verifyToken = (req,res, next) => {
         req.userId = decoded.id
         next()
     })
-}
+},
 
-generateToken = (value) => {
+generateToken: (value) => {
     return jwt.sign(value, config.secret, {expiresIn: config.jwtExpiration})
 }
-
-
-const tokenManagement = {
-    verifyToken,
-    generateToken
 }
+
 
 module.exports = tokenManagement

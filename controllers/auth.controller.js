@@ -21,15 +21,14 @@ const authController = {
             if (!passwordIsValid){
                 return res.status(400).json({message:`Password is Invalid`})
             }
-
             const jwtToken = tokenManagement.generateToken({id:user.id})
 
             //check if there is a refresh token saved for this user  
             const userId = user.id
             let token = await RefreshToken.isTokenPresent(userId)
 
-
             //if token is saved set jwtToken in a cookie
+            //Will need to change this 
             if (token){
                 if (token.userId === user.id) {
                     return res.status(200).cookie("x-access-token", jwtToken, {
@@ -41,8 +40,6 @@ const authController = {
                     })
                 }
             }
-
-
             let refreshToken = await RefreshToken.createToken(user)
 
             res.status(200).json({
